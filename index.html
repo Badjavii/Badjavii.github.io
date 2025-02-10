@@ -25,97 +25,11 @@
     </audio>
     <button id="mute-button" class="mute-button">
         <div class="wave"></div>
-        <div classwave"></div>
+        <div class="wave"></div>
         <div class="wave"></div>
     </button>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const aviso = document.getElementById("aviso");
-            const closeAdvice = document.getElementById("cerrar-aviso");
-            const carta = document.getElementById("carta");
-
-            // Mostrar la carta y ocultar el aviso al hacer clic en el botón de cerrar
-            closeAdvice.addEventListener("click", function () {
-                aviso.style.display = "none";
-                carta.style.display = "block";
-                // Desencriptar y mostrar el contenido de la carta
-                desencriptarArchivo();
-            });
-        });
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const audioElement = document.getElementById("test-audio");
-            const muteButton = document.getElementById("mute-button");
-            let isPaused = false;
-
-            muteButton.addEventListener("click", function () {
-                audioElement.play();
-                if (isPaused) {
-                    audioElement.play();
-                } else {
-                    audioElement.pause();
-                }
-                isPaused = !isPaused;
-            });
-        });
-
-        async function leerArchivo(ruta) {
-            const respuesta = await fetch(ruta);
-            const texto = await respuesta.text();
-            return texto;
-        }
-
-        function fromBinaryToUnicode(binaryText) {
-            return binaryText.split(' ')
-                .map(binaryGroup => binaryGroup.split('-')
-                    .map(binaryDigit => String.fromCharCode(parseInt(binaryDigit, 2)))
-                    .join('')
-                ).join(' ');
-        }
-
-        function fromUnicodeToAscii(unicodeText) {
-            return unicodeText.split(' ')
-                .map(unicodeGroup => unicodeGroup.split('-')
-                    .map(unicodeDigit => String.fromCharCode(parseInt(unicodeDigit.slice(1), 10)))
-                    .join('')
-                ).join('');
-        }
-
-        function toNormalText(asciiText) {
-            return asciiText.split(' ')
-                .map(asciiCode => String.fromCharCode(parseInt(asciiCode)))
-                .join('');
-        }
-
-        function revertLines(text) {
-            return text.split('\n')
-                .map(line => line.split('').reverse().join(''))
-                .reverse()
-                .join('\n');
-        }
-
-        function desencriptarTexto(text) {
-            const binaryText = text.split('\n').map(line => fromBinaryToUnicode(line)).join('\n');
-            const unicodeText = binaryText.split('\n').map(line => fromUnicodeToAscii(line)).join('\n');
-            const asciiText = unicodeText.split('\n').map(line => toNormalText(line)).join('\n');
-            const normalText = asciiText.split('\n').map(line => line.split('').reverse().join('')).join('\n');
-            return revertLines(normalText);
-        }
-
-        async function desencriptarArchivo() {
-            const carta = document.getElementById("carta");
-
-            try {
-                const encryptedText = await leerArchivo('C:\Users\javie\OneDrive\Documentos\GitHub\Badjavii.github.io\sources\data.md');
-                const decryptedText = desencriptarTexto(encryptedText);
-                carta.innerHTML = decryptedText.replace(/\n/g, '<br>'); // Reemplazar saltos de línea con etiquetas <br>
-            } catch (error) {
-                carta.textContent = 'Error al leer el archivo.';
-                console.error(error);
-            }
-        }
-    </script>
+    <script src="scripts.js"></script>
 </body>
 
 </html>
