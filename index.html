@@ -15,8 +15,6 @@
         <button id="cerrar-aviso">Salir</button>
     </div>
 
-    <input type="file" id="sources/14feb.md">
-
     <div class="carta" id="carta" style="display: none;">
         <!-- Aquí se mostrará el contenido desencriptado -->
     </div>
@@ -27,7 +25,7 @@
     </audio>
     <button id="mute-button" class="mute-button">
         <div class="wave"></div>
-        <div class="wave"></div>
+        <div classwave"></div>
         <div class="wave"></div>
     </button>
 
@@ -41,6 +39,8 @@
             closeAdvice.addEventListener("click", function () {
                 aviso.style.display = "none";
                 carta.style.display = "block";
+                // Desencriptar y mostrar el contenido de la carta
+                desencriptarArchivo();
             });
         });
 
@@ -60,13 +60,10 @@
             });
         });
 
-        function leerArchivo(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = reject;
-                reader.readAsText(file);
-            });
+        async function leerArchivo(ruta) {
+            const respuesta = await fetch(ruta);
+            const texto = await respuesta.text();
+            return texto;
         }
 
         function fromBinaryToUnicode(binaryText) {
@@ -107,25 +104,17 @@
         }
 
         async function desencriptarArchivo() {
-            const fileInput = document.getElementById('fileInput');
-            const carta = document.getElementById('carta');
-            const file = fileInput.files[0];
+            const carta = document.getElementById("carta");
 
-            if (file) {
-                try {
-                    const encryptedText = await leerArchivo(file);
-                    const decryptedText = desencriptarTexto(encryptedText);
-                    carta.innerHTML = decryptedText.replace(/\n/g, '<br>'); // Reemplazar saltos de línea con etiquetas <br>
-                } catch (error) {
-                    carta.textContent = 'Error al leer el archivo.';
-                    console.error(error);
-                }
-            } else {
-                carta.textContent = 'Por favor, selecciona un archivo.';
+            try {
+                const encryptedText = await leerArchivo('C:\Users\javie\OneDrive\Documentos\GitHub\Badjavii.github.io\sources\data.md');
+                const decryptedText = desencriptarTexto(encryptedText);
+                carta.innerHTML = decryptedText.replace(/\n/g, '<br>'); // Reemplazar saltos de línea con etiquetas <br>
+            } catch (error) {
+                carta.textContent = 'Error al leer el archivo.';
+                console.error(error);
             }
         }
-
-        document.getElementById('fileInput').addEventListener('change', desencriptarArchivo);
     </script>
 </body>
 
