@@ -12,6 +12,46 @@ body {
     overflow: auto;
 }
 
+/* Contenedor de la imagen */
+.imagen-con-marco {
+    margin-top: auto;
+    /* Empuja la imagen hacia abajo */
+    text-align: center;
+    padding: 20px;
+    border: 10px;
+    border-radius: 20px;
+    background-color: #10192c;
+    border-top: 2px;
+}
+
+/* Estilo de la imagen */
+.imagen-con-marco img {
+    max-width: 100%;
+    height: auto;
+    border: 0px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Contenedor del sticker */
+.sticker {
+    position: absolute;
+    bottom: 10px;
+    /* Distancia desde la parte inferior */
+    right: 10px;
+    /* Distancia desde la parte derecha */
+}
+
+/* Estilo del sticker */
+.sticker img {
+    width: 80px;
+    /* Tamaño del sticker */
+    height: auto;
+    border-radius: 50%;
+    /* Forma circular */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
 .aviso {
     position: absolute;
     top: 50%;
