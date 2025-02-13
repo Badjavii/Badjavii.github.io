@@ -33,25 +33,6 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Contenedor del sticker */
-.sticker {
-    position: absolute;
-    bottom: 10px;
-    /* Distancia desde la parte inferior */
-    right: 10px;
-    /* Distancia desde la parte derecha */
-}
-
-/* Estilo del sticker */
-.sticker img {
-    width: 80px;
-    /* Tamaño del sticker */
-    height: auto;
-    border-radius: 50%;
-    /* Forma circular */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
 .aviso {
     position: absolute;
     top: 50%;
