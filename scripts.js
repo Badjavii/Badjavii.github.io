@@ -8,11 +8,9 @@ document.addEventListener("DOMContentLoaded", function () {
         aviso.style.display = "none";
         carta.style.display = "block";
         // Desencriptar y mostrar el contenido de la carta
-        desencriptarArchivo('sources/data.md'); // Aquí se menciona la ruta del archivo
+        desencriptarArchivo('sources/data.md');
     });
-});
 
-document.addEventListener("DOMContentLoaded", function () {
     const audioElement = document.getElementById("test-audio");
     const muteButton = document.getElementById("mute-button");
     let isPaused = false;
@@ -27,21 +25,30 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-function leerArchivo(ruta) {
-    return fetch(ruta)
-        .then(response => response.text())
-        .then(data => data.split('\n'))
-        .catch(error => {
-            console.error("Error leyendo el archivo:", error);
-            return [];
-        });
+async function leerArchivo(ruta) {
+    try {
+        const response = await fetch(ruta);
+        if (!response.ok) {
+            throw new Error("Error al leer el archivo");
+        }
+        const data = await response.text();
+        return data.split('\n');
+    } catch (error) {
+        console.error("Error leyendo el archivo:", error);
+        return [];
+    }
 }
 
 function convertBinaryToASCII(binaryText) {
     let asciiText = "";
     let binValues = binaryText.split(" ");
     for (let binValue of binValues) {
+        if (binValue.trim() === "") continue;  // Ignorar espacios vacíos
         let asciiCode = parseInt(binValue, 2);  // Convertir de binario a entero
+        if (isNaN(asciiCode)) {
+            console.error("Valor binario inválido:", binValue);
+            continue;
+        }
         asciiText += asciiCode + " ";
     }
     return asciiText.trim();
@@ -51,6 +58,7 @@ function convertASCIIToText(asciiText) {
     let text = "";
     let asciiValues = asciiText.split(" ");
     for (let value of asciiValues) {
+        if (value.trim() === "") continue;  // Ignorar espacios vacíos
         let char = String.fromCharCode(parseInt(value));  // Convertir de entero a carácter
         text += char;
     }
@@ -58,18 +66,26 @@ function convertASCIIToText(asciiText) {
 }
 
 async function desencriptarArchivo(ruta) {
-    let lineas = await leerArchivo(ruta);
+    try {
+        let lineas = await leerArchivo(ruta);
+        if (lineas.length === 0) {
+            console.error("El archivo está vacío o no se pudo leer.");
+            return;
+        }
 
-    // Desencriptar cada línea por separado
-    let lineasDesencriptadas = [];
-    for (let linea of lineas) {
-        let asciiText = convertBinaryToASCII(linea.trim());
-        let text = convertASCIIToText(asciiText);
-        lineasDesencriptadas.push(text + "\n");
+        // Desencriptar cada línea por separado
+        let lineasDesencriptadas = [];
+        for (let linea of lineas) {
+            let asciiText = convertBinaryToASCII(linea.trim());
+            let text = convertASCIIToText(asciiText);
+            lineasDesencriptadas.push(text + "\n");
+        }
+
+        // Mostrar el resultado en la carta
+        const carta = document.getElementById("carta");
+        const decryptedText = lineasDesencriptadas.join('');
+        carta.innerHTML = decryptedText.replace(/\n/g, '<br>');  // Reemplazar saltos de línea con etiquetas <br>
+    } catch (error) {
+        console.error("Error desencriptando el archivo:", error);
     }
-
-    // Mostrar el resultado en la carta
-    const carta = document.getElementById("carta");
-    const decryptedText = lineasDesencriptadas.join('');
-    carta.innerHTML = decryptedText.replace(/\n/g, '<br>');  // Reemplazar saltos de línea con etiquetas <br>
 }
