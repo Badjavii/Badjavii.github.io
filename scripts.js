@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
         aviso.style.display = "none";
         carta.style.display = "block";
         // Desencriptar y mostrar el contenido de la carta
-        desencriptarArchivo('sources/data.md');
+        //desencriptarArchivo('sources/data.md');
     });
 
     const audioElement = document.getElementById("test-audio");
