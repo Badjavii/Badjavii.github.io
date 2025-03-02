@@ -127,3 +127,11 @@ audio {
     position: absolute;
     top: -9999px;
 }
+
+/* ---- particles.js container ---- */
+#particles-js {
+    width: 200vh;
+    height: 200%;
+    position: fixed;
+    z-index: -1;
+}
